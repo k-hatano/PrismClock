@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" charset="utf-8" src="script.js">
+    </script>
+    <link rel="stylesheet" charset="utf-8" type="text/css" href="style.css" />
+  </head>
+  <body class="main">
+    <div class="main_container" id="main_container">
+      <div class="clock flipped" id="clock">
+        <span class="clock_digit" id="hour_1">0</span><span class="clock_digit" id="hour_2">0</span><span class="clock_digit" id="minute_1">0</span><span class="clock_digit" id="minute_2">0</span><span class="clock_digit" id="second_1">0</span><span class="clock_digit" id="second_2">0</span>
+      </div>
+      <div class="settings" id="settings">
+        <span>Size:</span><span id="size_value">64</span>
+        <input type="range" id="size" name="size" min="12" max="256" value="64" />
+        &nbsp;
+        <input type="checkbox" id="flipped" name="flipped" checked="checked" />
+        <label for="flipped" id="flipped_label">Flipped</label>
+        <br />
+        <button id="enter_into_fullscreen">Enter into Fullscreen</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+
+body.main {
+	padding: 0;
+	margin: 0;
+	background: #000000;
+	color: #ffffff;
+	user-select: none;
+}
+
+div.main_container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+div.clock {
+	margin: auto;
+	text-align: center;
+	position: absolute;
+	left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 64px;
+    display: table;
+}
+
+span.clock_digit {
+	width: 64px;
+	height: 64px;
+	color: #ffffff;
+	display: table-cell;
+	vertical-align: middle;
+	border: 1px solid #303030;
+	font-size: 32px;
+}
+
+.flipped {
+	transform: scale(1, -1);
+}
+
+div.settings {
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	bottom: 32px;
+	text-align: center;
+	line-height: 3em;
+}
+
+input#size {
+	width: 256px;
+	vertical-align: middle;
+}
+
+.hidden {
+	display: none;
+}
+
+div.settings button {
+	background: #bbbe;
+	border-radius: 32px;
+	padding: 8px 18px;
+	color: #111;
+	border: none;
+}
+
+div.settings button:active {
+	background: #222e;
+	color: #aaa;
+}
