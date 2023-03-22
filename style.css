@@ -45,9 +45,9 @@ div.settings {
 	z-index: 1;
 	left: 0;
 	right: 0;
-	bottom: 32px;
+	bottom: 16px;
 	text-align: center;
-	line-height: 3em;
+	line-height: 2.8em;
 	padding: 16px;
 }
 

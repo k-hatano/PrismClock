@@ -14,6 +14,9 @@ function initialize() {
   document.getElementById('show_seconds').addEventListener('change', showSecondsChanged);
   document.getElementById('main_container').addEventListener('click', mainContainerClicked);
   document.getElementById('enter_into_fullscreen').addEventListener('click', enterIntoFullscreenClicked);
+  if (!document.fullscreenEnabled) {
+    document.getElementById('enter_into_fullscreen').className = 'hidden';
+  }
   heartbeat();
 }
 
