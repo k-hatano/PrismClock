@@ -22,6 +22,7 @@ div.clock {
     right: 0;
     bottom: 0;
     height: 64px;
+    width: 384px;
     display: table;
 }
 
@@ -47,6 +48,7 @@ div.settings {
 	bottom: 32px;
 	text-align: center;
 	line-height: 3em;
+	padding: 16px;
 }
 
 input#size {
@@ -55,7 +57,7 @@ input#size {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 div.settings button {
