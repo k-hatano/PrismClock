@@ -5,19 +5,79 @@ var gShowSeconds = true;
 
 onload = _ => {
   initialize();
+  drawGrid();
 };
 
+function drawGrid() {
+  var canvas = document.getElementById('background_grid');
+  var width = canvas.clientWidth;
+  var height = canvas.clientHeight;
+  canvas.width = width;
+  canvas.height = height;
+  var gridSize = parseFloat(document.getElementById('size').value);
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, width, height);
+
+  var dy = gridSize / 2;
+  while (dy <= height / 2) {
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#303030";
+    ctx.moveTo(0, (height / 2) - dy);
+    ctx.lineTo(width, (height / 2) - dy);
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#303030";
+    ctx.moveTo(0, (height / 2) + dy);
+    ctx.lineTo(width, (height / 2) + dy);
+    ctx.stroke();
+
+    dy += gridSize;
+  }
+
+  var dx = 0;
+  while (dx <= width / 2) {
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#303030";
+    ctx.moveTo((width / 2) - dx, 0);
+    ctx.lineTo((width / 2) - dx, height);
+    ctx.stroke();
+
+    if (dx > 0) {
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#303030";
+      ctx.moveTo((width / 2) + dx, 0);
+      ctx.lineTo((width / 2) + dx, height);
+      ctx.stroke();
+    }
+
+    dx += gridSize;
+  }
+
+}
+
 function initialize() {
+  window.addEventListener('resize', windowResized);
   document.getElementById('settings').addEventListener('click', preventBackgroundClick);
   document.getElementById('size').addEventListener('input', sizeChanged);
+  document.getElementById('size_value').addEventListener('click', sizeValueClicked);
   document.getElementById('flipped').addEventListener('change', flippedChanged);
   document.getElementById('show_seconds').addEventListener('change', showSecondsChanged);
   document.getElementById('main_container').addEventListener('click', mainContainerClicked);
+  document.getElementById('main_container').addEventListener('wheel', scrolledByWheel);
   document.getElementById('enter_into_fullscreen').addEventListener('click', enterIntoFullscreenClicked);
   if (!document.fullscreenEnabled) {
     document.getElementById('enter_into_fullscreen').className = 'hidden';
   }
   heartbeat();
+}
+
+function windowResized() {
+  drawGrid();
 }
 
 function heartbeat() {
@@ -44,8 +104,40 @@ function heartbeat() {
   document.getElementById('second_2').innerText = second.charAt(1);
 }
 
+function scrolledByWheel(event) {
+  if (event.deltaY > 0) {
+    if (gSize < 255) {
+      gSize += 2;
+      document.getElementById('size').value = gSize;
+      updateSize(gSize);
+    }
+  } else if (event.deltaY < 0) {
+    if (gSize > 13) {
+      gSize -= 2;
+      document.getElementById('size').value = gSize;
+      updateSize(gSize);
+    }
+  }
+}
+
+function sizeValueClicked(event) {
+  var newSize = window.prompt("new size:", gSize);
+  if (!isNaN(newSize) && newSize >= 32 && newSize <= 256) {
+    gSize = parseFloat(newSize);
+    document.getElementById('size').value = gSize;
+    updateSize(gSize);
+  }
+}
+
 function sizeChanged(event) {
-  gSize = event.target.value;
+  updateSize(event.target.value);
+  event.preventDefault();
+
+  return false;
+}
+
+function updateSize(newSize) {
+  gSize = newSize;
   var objects = document.getElementsByClassName('clock_digit');
   for (object of objects) {
     object.style.width = gSize;
@@ -59,8 +151,7 @@ function sizeChanged(event) {
     document.getElementById('clock').style.width = gSize * 4;
   }
   document.getElementById('size_value').innerText = gSize;
-  event.preventDefault();
-  return false;
+  drawGrid();
 }
 
 function showSecondsChanged(event) {
@@ -74,6 +165,8 @@ function showSecondsChanged(event) {
     document.getElementById('second_2').className = "clock_digit hidden";
     document.getElementById('clock').style.width = gSize * 4;
   }
+
+  drawGrid();
 }
 
 function preventBackgroundClick(event) {
@@ -100,6 +193,8 @@ function flippedChanged(event) {
     document.getElementById('clock').className = "clock"
   }
   event.preventDefault();
+
+  drawGrid();
   return false;
 }
 
