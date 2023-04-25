@@ -20,6 +20,35 @@ div.main_container {
 	position: relative;
 }
 
+div.date {
+	margin: auto;
+	text-align: center;
+	position: fixed;
+	left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 64px;
+    width: 384px;
+    display: table;
+    transform: translatey(-64px);
+    font-family: sans-serif;
+}
+
+div.date.flipped {
+	transform: translatey(64px) scale(1, -1);
+}
+
+span.date_digit {
+	width: 64px;
+	height: 64px;
+	color: #ffffff;
+	display: table-cell;
+	vertical-align: middle;
+	/* border: 1px solid #303030; */
+	font-size: 32px;
+}
+
 div.clock {
 	margin: auto;
 	text-align: center;
@@ -31,6 +60,7 @@ div.clock {
     height: 64px;
     width: 384px;
     display: table;
+    font-family: sans-serif;
 }
 
 span.clock_digit {
@@ -52,10 +82,11 @@ div.settings {
 	z-index: 1;
 	left: 0;
 	right: 0;
-	bottom: 16px;
+	bottom: 8px;
 	text-align: center;
 	line-height: 2.8em;
 	padding: 16px;
+	background: #00000044;
 }
 
 input#size {
@@ -79,4 +110,8 @@ div.settings button {
 div.settings button:active {
 	background: #222e;
 	color: #aaa;
+}
+
+div.settings br {
+	line-height: 2.0em;
 }

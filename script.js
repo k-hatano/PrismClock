@@ -1,6 +1,8 @@
 
 var gSize = 64;
+var gShowGrid = true;
 var gFlipped = true;
+var gShowDate = true;
 var gShowSeconds = true;
 
 onload = _ => {
@@ -65,7 +67,10 @@ function initialize() {
   document.getElementById('settings').addEventListener('click', preventBackgroundClick);
   document.getElementById('size').addEventListener('input', sizeChanged);
   document.getElementById('size_value').addEventListener('click', sizeValueClicked);
+  document.getElementById('show_grid').addEventListener('change', showGridChanged);
   document.getElementById('flipped').addEventListener('change', flippedChanged);
+  document.getElementById('font_family').addEventListener('change', fontFamilyChanged);
+  document.getElementById('show_date').addEventListener('change', showDateChanged);
   document.getElementById('show_seconds').addEventListener('change', showSecondsChanged);
   document.getElementById('main_container').addEventListener('click', mainContainerClicked);
   document.getElementById('main_container').addEventListener('wheel', scrolledByWheel);
@@ -84,6 +89,16 @@ function heartbeat() {
   setTimeout(heartbeat, 1000);
 
   var now = new Date();
+  var year = new String(now.getYear());
+  var month = new String(now.getMonth() + 1);
+  if (month.length < 2) {
+    month = "0" + month;
+  }
+  var day = new String(now.getDate());
+  if (day.length < 2) {
+    day = "0" + day;
+  }
+
   var hour = new String(now.getHours());
   if (hour.length < 2) {
     hour = "0" + hour;
@@ -96,6 +111,12 @@ function heartbeat() {
   if (second.length < 2) {
     second = "0" + second;
   }
+  document.getElementById('year_1').innerText = year.charAt(0);
+  document.getElementById('year_2').innerText = year.charAt(1);
+  document.getElementById('month_1').innerText = month.charAt(0);
+  document.getElementById('month_2').innerText = month.charAt(1);
+  document.getElementById('day_1').innerText = day.charAt(0);
+  document.getElementById('day_2').innerText = day.charAt(1);
   document.getElementById('hour_1').innerText = hour.charAt(0);
   document.getElementById('hour_2').innerText = hour.charAt(1);
   document.getElementById('minute_1').innerText = minute.charAt(0);
@@ -122,7 +143,7 @@ function scrolledByWheel(event) {
 
 function sizeValueClicked(event) {
   var newSize = window.prompt("new size:", gSize);
-  if (!isNaN(newSize) && newSize >= 32 && newSize <= 256) {
+  if (!isNaN(newSize) && newSize >= 8 && newSize <= 1024) {
     gSize = parseFloat(newSize);
     document.getElementById('size').value = gSize;
     updateSize(gSize);
@@ -131,39 +152,86 @@ function sizeValueClicked(event) {
 
 function sizeChanged(event) {
   updateSize(event.target.value);
+
+  if (gShowSeconds && gSize * 6 > document.body.clientWidth) {
+    document.getElementById('message').innerText = "*Caution* Too large";
+  } else if (!gShowSeconds && gSize * 4 > document.body.clientWidth) {
+    document.getElementById('message').innerText = "*Caution* Too large";
+  } else {
+    document.getElementById('message').innerText = "";
+  }
+
   event.preventDefault();
 
   return false;
 }
 
 function updateSize(newSize) {
-  gSize = newSize;
-  var objects = document.getElementsByClassName('clock_digit');
-  for (object of objects) {
+  gSize = parseFloat(newSize);
+  var clockDigits = document.getElementsByClassName('clock_digit');
+  for (object of clockDigits) {
+    object.style.width = gSize;
+    object.style.height = gSize;
+    object.style.fontSize = Math.floor(gSize / 2);
+  }
+  var dateDigits = document.getElementsByClassName('date_digit');
+  for (object of dateDigits) {
     object.style.width = gSize;
     object.style.height = gSize;
     object.style.fontSize = Math.floor(gSize / 2);
   }
   document.getElementById('clock').style.height = gSize;
+  document.getElementById('date').style.height = gSize;
   if (gShowSeconds) {
     document.getElementById('clock').style.width = gSize * 6;
+    document.getElementById('date').style.width = gSize * 6;
   } else {
     document.getElementById('clock').style.width = gSize * 4;
+    document.getElementById('date').style.width = gSize * 4;
   }
   document.getElementById('size_value').innerText = gSize;
+
+  if (gShowSeconds && gSize * 6 > document.body.clientWidth) {
+    document.getElementById('message').innerText = "*Caution* Too large";
+  } else if (!gShowSeconds && gSize * 4 > document.body.clientWidth) {
+    document.getElementById('message').innerText = "*Caution* Too large";
+  } else {
+    document.getElementById('message').innerText = "";
+  }
   drawGrid();
+  updateDateClockClassName();
+}
+
+function showDateChanged(event) {
+  gShowDate = event.target.checked;
+  updateDateClockClassName()
 }
 
 function showSecondsChanged(event) {
   gShowSeconds = event.target.checked;
   if (gShowSeconds) {
+    document.getElementById('year_1').className = "date_digit";
+    document.getElementById('year_2').className = "date_digit";
     document.getElementById('second_1').className = "clock_digit";
     document.getElementById('second_2').className = "clock_digit";
     document.getElementById('clock').style.width = gSize * 6;
+    document.getElementById('date').style.width = gSize * 6;
   } else {
+    document.getElementById('year_1').className = "date_digit hidden";
+    document.getElementById('year_2').className = "date_digit hidden";
     document.getElementById('second_1').className = "clock_digit hidden";
     document.getElementById('second_2').className = "clock_digit hidden";
     document.getElementById('clock').style.width = gSize * 4;
+    document.getElementById('date').style.width = gSize * 4;
+  }
+  updateDateClockClassName();
+
+  if (gShowSeconds && gSize * 6 > document.body.clientWidth) {
+    document.getElementById('message').innerText = "*Caution* Too large";
+  } else if (!gShowSeconds && gSize * 4 > document.body.clientWidth) {
+    document.getElementById('message').innerText = "*Caution* Too large";
+  } else {
+    document.getElementById('message').innerText = "";
   }
 
   drawGrid();
@@ -185,13 +253,22 @@ function mainContainerClicked() {
   return false;
 }
 
+function showGridChanged(event) {
+  gShowGrid = event.target.checked;
+  if (gShowGrid) {
+    document.getElementById('background_grid').className = "";
+    drawGrid();
+  } else {
+    document.getElementById('background_grid').className = "hidden";
+  }
+  event.preventDefault();
+
+  return false;
+}
+
 function flippedChanged(event) {
   gFlipped = event.target.checked;
-  if (gFlipped) {
-    document.getElementById('clock').className = "clock flipped"
-  } else {
-    document.getElementById('clock').className = "clock"
-  }
+  updateDateClockClassName();
   event.preventDefault();
 
   drawGrid();
@@ -203,5 +280,30 @@ function enterIntoFullscreenClicked(event) {
     document.exitFullscreen();
   } else {
     document.body.requestFullscreen();
+  }
+}
+
+function fontFamilyChanged() {
+  document.getElementById('date').style.fontFamily = event.target.value;
+  document.getElementById('clock').style.fontFamily = event.target.value;
+}
+
+function updateDateClockClassName() {
+  var dateClassName = "date";
+  var clockClassName = "clock";
+  if (gFlipped) {
+    dateClassName += " flipped";
+    clockClassName += " flipped";
+  }
+  if (!gShowDate) {
+    dateClassName += " hidden";
+  }
+  document.getElementById('date').className = dateClassName;
+  document.getElementById('clock').className = clockClassName;
+
+  if (gFlipped) {
+    document.getElementById('date').style.transform = "translatey(" + gSize + "px) scale(1, -1)";
+  } else {
+    document.getElementById('date').style.transform = "translatey(" + (-gSize) + "px)";
   }
 }

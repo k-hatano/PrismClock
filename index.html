@@ -4,23 +4,45 @@
     <script type="text/javascript" charset="utf-8" src="script.js">
     </script>
     <link rel="stylesheet" charset="utf-8" type="text/css" href="style.css" />
-    <meta name="theme-color" content="#111" />
+    <meta name="theme-color" content="#333" />
+    <meta name="viewport" content="initial-scale=1,minimum-scale=0.25" />
   </head>
   <body class="main">
     <div class="main_container" id="main_container">
       <canvas id="background_grid"></canvas>
+      <div class="date flipped" id="date">
+        <span class="date_digit" id="year_1">0</span><span class="date_digit" id="year_2">0</span><span class="date_digit" id="month_1">0</span><span class="date_digit" id="month_2">0</span><span class="date_digit" id="day_1">0</span><span class="date_digit" id="day_2">0</span>
+      </div>
       <div class="clock flipped" id="clock">
         <span class="clock_digit" id="hour_1">0</span><span class="clock_digit" id="hour_2">0</span><span class="clock_digit" id="minute_1">0</span><span class="clock_digit" id="minute_2">0</span><span class="clock_digit" id="second_1">0</span><span class="clock_digit" id="second_2">0</span>
       </div>
       <div class="settings" id="settings">
+        <span id="message"></span>
+        <br />
         <span>Size:</span><span id="size_value">64</span>
         <input type="range" id="size" name="size" min="12" max="256" value="64" />
         <br />
+        <input type="checkbox" id="show_grid" name="show_grid" checked="checked" />
+        <label for="show_grid" id="show_grid">Show Grid</label>
+        &nbsp;
+        <input type="checkbox" id="show_date" name="show_date" checked="checked" />
+        <label for="show_date" id="show_date">Show Date</label>
+        &nbsp;
         <input type="checkbox" id="show_seconds" name="show_seconds" checked="checked" />
-        <label for="show_seconds" id="show_seconds_label">Show Seconds</label>
+        <label for="show_seconds" id="show_seconds_label">Show Year/Seconds</label>
         &nbsp;
         <input type="checkbox" id="flipped" name="flipped" checked="checked" />
         <label for="flipped" id="flipped_label">Flipped</label>
+        <br />
+        <label for="font_family" id="font_family_label">Font Family:</label>
+        <select id="font_family">
+          <option value="sans-serif" selected="selected">Sans-Serif</option>
+          <option value="serif">Serif</option>
+          <option value="monospace">Monospace</option>
+          <option value="fantasy">Fantasy</option>
+          <option value="cursive">Cursive</option>
+          <option value="math">Math</option>
+        </select>
         &nbsp;
         <button id="enter_into_fullscreen">Enter into Fullscreen</button>
       </div>
