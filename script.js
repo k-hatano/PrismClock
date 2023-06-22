@@ -280,6 +280,10 @@ function mainContainerKeyPressed() {
     }
     drawGrid();
   }
+
+  if (keyCode == 13 && document.getElementById('settings').className.indexOf('hidden') >= 0) { // Enterキー、かつ設定フォームが非表示
+    nowClass = document.getElementById('settings').className = "settings";
+  }
 }
 
 function sizeValueClicked(event) {

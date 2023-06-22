@@ -107,6 +107,7 @@ div.settings button {
 	padding: 8px 18px;
 	color: #111;
 	border: none;
+	user-select: none;
 }
 
 div.settings button:active {
