@@ -79,14 +79,14 @@ span.clock_digit {
 
 div.settings {
 	position: absolute;
-	z-index: 1;
+	z-index: 10;
 	left: 0;
 	right: 0;
-	bottom: 8px;
+	bottom: 0px;
 	text-align: center;
-	line-height: 2.8em;
-	padding: 16px;
-	background: #00000044;
+	line-height: 2.0em;
+	padding: 10px;
+	background: #55555555;
 }
 
 input#size {
