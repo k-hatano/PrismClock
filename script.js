@@ -226,51 +226,44 @@ function scrolledByWheel(event) {
 
 function mainContainerKeyPressed() {
   var keyCode = event.keyCode;
-  if (keyCode == 38 || keyCode == 107 || keyCode == 187 || keyCode == 228) { // 上、プラス、ゲームパッド12
+  if (keyCode == 38 || keyCode == 107 || keyCode == 67 || keyCode == 187 || keyCode == 228) { // 上、プラス、C、ゲームパッド90
     gSize += 2;
     document.getElementById('size').value = gSize;
     updateSize(gSize);
-  } else if (keyCode == 40 || keyCode == 109 || keyCode == 189 || keyCode == 227) { // 下、マイナス、ゲームパッド11
+  } else if (keyCode == 40 || keyCode == 109 || keyCode == 68 || keyCode == 189 || keyCode == 227) { // 下、マイナス、D、ゲームパッド89
     gSize -= 2;
     document.getElementById('size').value = gSize;
     updateSize(gSize);
-  } else if (keyCode == 49 || keyCode == 97) { // 1
+  } else if (keyCode == 49 || keyCode == 97 || keyCode == 71) { // 1、G
     document.getElementById('digits').value = '12';
     gShowDate = true;
     gShowSeconds = true;
     updateDateClockClassName();
     drawGrid();
-  } else if (keyCode == 50 || keyCode == 98) { // 2
+  } else if (keyCode == 50 || keyCode == 98 || keyCode == 72) { // 2、H
     document.getElementById('digits').value = '8';
     gShowDate = true;
     gShowSeconds = false;
     updateDateClockClassName();
     drawGrid();
-  } else if (keyCode == 51 || keyCode == 99) { // 3
+  } else if (keyCode == 51 || keyCode == 99 || keyCode == 73) { // 3、I
     document.getElementById('digits').value = '6';
     gShowDate = false;
     gShowSeconds = true;
     updateDateClockClassName();
     drawGrid();
-  } else if (keyCode == 52 || keyCode == 100) { // 4
+  } else if (keyCode == 52 || keyCode == 100 || keyCode == 74) { // 4、J
     document.getElementById('digits').value = '4';
     gShowDate = false;
     gShowSeconds = false;
     updateDateClockClassName();
     drawGrid();
-  } else if (keyCode == 83) { // S
-    var nowClass = document.getElementById('settings').className;
-    if (nowClass.indexOf("hidden") >= 0) {
-      nowClass = document.getElementById('settings').className = "settings";
-    } else {
-      nowClass = document.getElementById('settings').className = "settings hidden";
-    }
-  } else if (keyCode == 70) { // F
+  } else if (keyCode == 53 || keyCode == 101 || keyCode == 69 || keyCode == 37) { // 5、E、左
     gFlipped = !document.getElementById('flipped').checked;
     document.getElementById('flipped').checked = gFlipped;
     updateDateClockClassName();
     drawGrid();
-  } else if (keyCode == 71) { // G
+  } else if (keyCode == 54 || keyCode == 101 || keyCode == 70 || keyCode == 39) { // 6、F、右
     gShowGrid = !document.getElementById('show_grid').checked;
     document.getElementById('show_grid').checked = gShowGrid;
     if (gShowGrid) {
@@ -279,6 +272,20 @@ function mainContainerKeyPressed() {
       document.getElementById('background_grid').className = "hidden";
     }
     drawGrid();
+  } else if (keyCode == 55 || keyCode == 67 || keyCode == 78) { // 7、N
+    if (document.getElementById('font_family').selectedIndex >= document.getElementById('font_family').options.length - 1) {
+      document.getElementById('font_family').selectedIndex = 0;
+    } else {
+      document.getElementById('font_family').selectedIndex = document.getElementById('font_family').selectedIndex + 1;
+    }
+    fontFamilyChanged();
+  } else if (keyCode == 48 || keyCode == 96 || keyCode == 79) { // 0、O
+    var nowClass = document.getElementById('settings').className;
+    if (nowClass.indexOf("hidden") >= 0) {
+      nowClass = document.getElementById('settings').className = "settings";
+    } else {
+      nowClass = document.getElementById('settings').className = "settings hidden";
+    }
   }
 
   if (keyCode == 13 && document.getElementById('settings').className.indexOf('hidden') >= 0) { // Enterキー、かつ設定フォームが非表示
@@ -386,8 +393,8 @@ function enterIntoFullscreenClicked(event) {
 }
 
 function fontFamilyChanged() {
-  document.getElementById('date').style.fontFamily = event.target.value;
-  document.getElementById('clock').style.fontFamily = event.target.value;
+  document.getElementById('date').style.fontFamily = document.getElementById('font_family').value;
+  document.getElementById('clock').style.fontFamily = document.getElementById('font_family').value;
 }
 
 function digitsChanged() {
